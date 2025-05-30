@@ -1,15 +1,22 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:bucket_collect_balls_game/components/components.dart';
-import 'package:bucket_collect_balls_game/src/config.dart';
+import 'package:bucket_collect_balls_game/config.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+
+import 'config.dart';
 
 /**
  * The game class.
  */
-class BucketCollectBallsGame extends FlameGame {
+class BucketCollectBallsGame extends FlameGame
+    with HasCollisionDetection, KeyboardEvents {
   BucketCollectBallsGame()
     : super(
         camera: CameraComponent.withFixedResolution(
@@ -33,15 +40,37 @@ class BucketCollectBallsGame extends FlameGame {
       Ball(
         radius: ballRadius,
         position: Vector2(width / 2, 0),
-        velocity:
-            Vector2(
-                0,
-                height * 0.2,
-              ).normalized()
-              ..scale(height / 4),
+        velocity: Vector2(0, height * 0.2),
+      ),
+    );
+    world.add(
+      Bucket(
+        cornerRadius: const Radius.circular(ballRadius / 2),
+        position: Vector2(bucketWidth, bucketHeight),
+        size: Vector2(bucketWidth, bucketHeight),
       ),
     );
 
     this.debugMode = debugMode;
+  }
+
+  /// On key event. Just to move bucket.
+  @override
+  KeyEventResult onKeyEvent(
+    KeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    super.onKeyEvent(event, keysPressed);
+    switch (event.logicalKey) {
+      case LogicalKeyboardKey.arrowLeft:
+        world.children.query<Bucket>().first.moveBy(-bucketShiftStep);
+        break;
+      case LogicalKeyboardKey.arrowRight:
+        world.children.query<Bucket>().first.moveBy(bucketShiftStep);
+        break;
+      default:
+        break;
+    }
+    return KeyEventResult.handled;
   }
 }
