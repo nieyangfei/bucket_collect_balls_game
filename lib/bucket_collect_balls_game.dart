@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui';
 
 import 'package:bucket_collect_balls_game/components/components.dart';
-import 'package:bucket_collect_balls_game/config.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
 import 'config.dart';
 
@@ -46,7 +44,7 @@ class BucketCollectBallsGame extends FlameGame
     world.add(
       Bucket(
         cornerRadius: const Radius.circular(ballRadius / 2),
-        position: Vector2(bucketWidth, bucketHeight),
+        position: Vector2(width / 2, height * 0.95),
         size: Vector2(bucketWidth, bucketHeight),
       ),
     );
