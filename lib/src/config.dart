@@ -1,5 +1,5 @@
 /* Game configs. */
-const debugMode = true;
+const debugMode = false;
 const gameWidth = 820.0;
 const gameHeight = 1600.0;
 /* Ball configs. */

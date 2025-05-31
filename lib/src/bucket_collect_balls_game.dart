@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:bucket_collect_balls_game/src/widgets/score_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -64,6 +65,7 @@ class BucketCollectBallsGame extends FlameGame
       ),
     );
     score.value = 0;
+    world.add(ScoreText(score: score));
 
     this.debugMode = debugMode;
   }
