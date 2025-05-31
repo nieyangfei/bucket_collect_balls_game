@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:bucket_collect_balls_game/components/components.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-import 'config.dart';
+import './config.dart';
+import 'components/components.dart';
 
 /**
  * The game class.
@@ -25,6 +25,8 @@ class BucketCollectBallsGame extends FlameGame
 
   final rand = math.Random();
 
+  final ValueNotifier<int> score = ValueNotifier(0);
+
   double get width => size.x;
 
   double get height => size.y;
@@ -34,13 +36,7 @@ class BucketCollectBallsGame extends FlameGame
     super.onLoad();
     camera.viewfinder.anchor = Anchor.topLeft;
     world.add(PlayArea());
-    world.add(
-      Ball(
-        radius: ballRadius,
-        position: Vector2(width / 2, 0),
-        velocity: Vector2(0, height * 0.2),
-      ),
-    );
+
     world.add(
       Bucket(
         cornerRadius: const Radius.circular(ballRadius / 2),
@@ -48,6 +44,26 @@ class BucketCollectBallsGame extends FlameGame
         size: Vector2(bucketWidth, bucketHeight),
       ),
     );
+
+    world.add(
+      SpawnComponent(
+        period: .2,
+        selfPositioning: true,
+        autoStart: true,
+        factory: (index) {
+          return Ball(
+            radius: ballRadius,
+            position: Vector2(
+              new math.Random().nextDouble() * (width - 2 * ballRadius) +
+                  ballRadius,
+              ballRadius,
+            ),
+            velocity: Vector2(0, height * 0.2),
+          );
+        },
+      ),
+    );
+    score.value = 0;
 
     this.debugMode = debugMode;
   }

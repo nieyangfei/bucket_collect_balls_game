@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bucket_collect_balls_game/bucket_collect_balls_game.dart';
+import 'package:bucket_collect_balls_game/src/bucket_collect_balls_game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
